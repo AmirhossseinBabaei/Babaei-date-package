@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>تیم الفا — البرز | رزومه گلاسمورفیسم</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* GENERAL RESET & FONT */
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+    background:#101319;
+    color:#e8f3ff;
+    font-family:'Vazirmatn', sans-serif;
+    overflow-x:hidden;
+    line-height:1.6;
+}
+
+/* --- BACKGROUND --- */
+
+/* Repeating Laravel "Logo" Pattern */
+.laravel-background-pattern{
+    position:fixed;
+    inset:0;
+    z-index:-3; /* Lowest layer */
+    pointer-events:none;
+    /* Using CSS background for repeating text effect */
+    background-image: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 100px,
+        rgba(230, 52, 47, 0.01) 100px, /* Very faint red */
+        rgba(230, 52, 47, 0.01) 200px
+    ),
+    repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 100px,
+        rgba(230, 52, 47, 0.01) 100px,
+        rgba(230, 52, 47, 0.01) 200px
+    );
+    background-size: 300px 300px; /* Adjust size of pattern */
+    animation: patternMove 120s linear infinite; /* Subtle movement */
+}
+
+@keyframes patternMove {
+    from { background-position: 0 0; }
+    to { background-position: 600px 600px; }
+}
+
+
+/* Stars Layer (Z-index: -2) */
+.stars{position:fixed;inset:0;z-index:-2;background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400"><g fill="white">'+Array.from({length:350}).map(()=>`<circle cx='${Math.random()*400}' cy='${Math.random()*400}' r='${Math.random()*1}' opacity='${Math.random()*0.2}'/>`).join('')+'</g></svg>');opacity:0.6;}
+
+/* Lightning Glow Effect (Z-index: -1) */
+@keyframes lightningFlash {
+    0%, 99% {opacity: 0;}
+    100% {
+        opacity: 0.15;
+        background: radial-gradient(circle at center, rgba(173, 216, 230, 0.5) 0%, transparent 50%);
+    }
+}
+#lightning{
+    position:fixed;
+    inset:0;
+    z-index:-1;
+    pointer-events:none;
+    animation: lightningFlash 0.1s linear 8s infinite;
+}
+
+/* Precipitation Layer (Z-index: 0) */
+#precipitation{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:0;
+    background: radial-gradient(circle at 50% 50%, rgba(20, 20, 20, 0.1), rgba(0, 0, 0, 0.4));
+}
+
+/* Raindrops - Slower Speed */
+.raindrop{
+    position:absolute;
+    width:1.5px;
+    height:18px;
+    background:rgba(180, 220, 255, 0.5);
+    filter:blur(0.5px);
+    animation:rainFall linear infinite;
+    transform:skewY(10deg);
+}
+@keyframes rainFall{
+    0%{transform:translateY(-20vh) skewY(10deg)}
+    100%{transform:translateY(120vh) skewY(10deg)}
+}
+
+/* Snowflakes */
+.snowflake{
+    position:absolute;
+    width:5px;
+    height:5px;
+    background:rgba(255, 255, 255, 0.7);
+    border-radius:50%;
+    filter:blur(1px);
+    animation:snowFall linear infinite;
+}
+@keyframes snowFall{
+    0%{transform:translateY(-10vh)}
+    100%{transform:translateY(110vh)}
+}
+
+
+/* --- MAIN CONTENT STYLES --- */
+.container{max-width:1280px;margin:auto;padding:40px 22px;position:relative;z-index:2}
+
+.glass-element{
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(25px) saturate(180%);
+    -webkit-backdrop-filter: blur(25px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Other styles remain the same for brevity */
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:60px}
+.logo{
+    font-size:48px;font-weight:900;background:linear-gradient(135deg,#5f3fff,#9d72ff);width:100px;height:100px;border-radius:24px;display:flex;align-items:center;justify-content:center;box-shadow:0 15px 50px rgba(95, 63, 255, 0.4);transition:0.3s;
+}
+.hero-text h1{
+    font-size:42px;font-weight:900;margin-bottom:8px;background:linear-gradient(90deg, #00d79d, #00aaff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero-text p{opacity:.85;font-size:18px}
+section{margin-bottom:80px;padding-top:20px}
+h2{font-size:36px;font-weight:900;margin-bottom:30px;position:relative;display:inline-block;color:#f0f8ff;}
+h2:after{
+    content:'';position:absolute;bottom:-10px;right:0;width:60%;height:4px;background:linear-gradient(90deg, #5f3fff, transparent);border-radius:2px;
+}
+.about-text{font-size:18px;max-width:800px;opacity:.95;}
+.about-text strong{color:#00d79d;font-weight:700;}
+
+.skills-grid{display:flex;flex-wrap:wrap;gap:15px;}
+.skill-badge{
+    background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.2);padding:8px 18px;border-radius:25px;font-size:15px;font-weight:600;transition:background 0.3s, transform 0.3s;backdrop-filter:blur(10px);cursor:default;color:#9d72ff;
+}
+.skill-badge:hover{
+    background:rgba(95, 63, 255, 0.2);transform:translateY(-2px);box-shadow:0 5px 15px rgba(95, 63, 255, 0.3);
+}
+
+.team-slider{margin-top:20px;overflow:hidden;white-space:nowrap;position:relative;padding:10px 0;}
+.team-slider:before, .team-slider:after{
+    content:'';position:absolute;top:0;height:100%;width:100px;z-index:10;pointer-events:none;background:linear-gradient(to left, #101319, transparent);
+}
+.team-slider:after{left:0;background:linear-gradient(to right, #101319, transparent);}
+
+.team-track{display:inline-flex;animation:slideTeam 30s linear infinite}
+.team-track:hover{animation-play-state:paused;}
+@keyframes slideTeam{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+.team-card{
+    margin:0 14px;width:280px;min-width:280px;padding:25px;
+}
+.team-card:hover{
+    transform:translateY(-12px) scale(1.02);border-color: #00d79d;box-shadow:0 25px 80px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 215, 157, 0.2);
+}
+.team-card h4{font-size:22px;margin-bottom:6px;color:#00d79d}
+.team-card p{opacity:.75;font-size:15px;line-height:1.4;}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:25px}
+.project{
+    padding:28px;
+}
+.project:hover{
+    transform:translateY(-15px) scale(1.02);border-color: #5f3fff;box-shadow:0 25px 80px rgba(0, 0, 0, 0.5), 0 0 30px rgba(95, 63, 255, 0.2);
+}
+.project h4{color:#9d72ff;font-size:20px;margin-bottom:8px;}
+.project p{font-size:15px;opacity:.8;}
+
+.converter-card{
+    margin-top:25px;
+    padding:30px;
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+.converter-card label{
+    font-weight:700;
+    font-size:16px;
+}
+.converter-inputs{
+    display:flex;
+    flex-wrap:wrap;
+    gap:15px;
+}
+.converter-inputs input{
+    flex:1;
+    min-width:180px;
+    padding:12px 14px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,0.2);
+    background:rgba(0,0,0,0.2);
+    color:#e8f3ff;
+}
+.converter-inputs button{
+    padding:12px 18px;
+    border-radius:12px;
+    border:none;
+    cursor:pointer;
+    background:linear-gradient(120deg,#00d79d,#00aaff);
+    color:#08121d;
+    font-weight:700;
+    transition:transform 0.2s ease, box-shadow 0.2s ease;
+}
+.converter-inputs button:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 25px rgba(0, 167, 203, 0.4);
+}
+.converter-output{
+    min-height:32px;
+    font-size:18px;
+    font-weight:600;
+    color:#00d79d;
+}
+.converter-output.error{
+    color:#ff7a7a;
+}
+
+.contact-info{
+    padding:30px;display:flex;justify-content:space-around;flex-wrap:wrap;gap:20px;
+}
+.contact-item a{
+    color:#00aaff;text-decoration:none;font-size:18px;font-weight:600;transition:color 0.3s;
+}
+.contact-item a:hover{color:#f0f8ff;}
+.contact-item p{opacity:.7;}
+
+footer{
+    text-align:center;
+    padding:30px 0;
+    opacity:.7;
+    font-size:14px;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Laravel Logo Style (Small, Red, in Footer) */
+.laravel-logo-wrapper{
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px; /* Adjusted font size for "Laravel" text */
+    font-weight: bold;
+    color: #e6342f; /* Laravel Red */
+    border: 1px solid rgba(230, 52, 47, 0.4);
+    border-radius: 5px;
+    padding: 2px;
+    background: rgba(230, 52, 47, 0.1);
+    box-shadow: 0 0 10px rgba(230, 52, 47, 0.3);
+    transition: transform 0.3s ease;
+}
+.laravel-logo-wrapper:hover{
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(230, 52, 47, 0.5);
+}
+
+/* If using an actual SVG, uncomment and adjust: */
+/*
+.laravel-logo-wrapper svg{
+    width: 100%;
+    height: 100%;
+    fill: #e6342f;
+}
+*/
+
+/* MEDIA QUERIES */
+@media(max-width:1200px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:900px){
+    .grid{grid-template-columns:1fr;}
+    .hero-text h1{font-size:36px !important;}
+    h2{font-size:30px;}
+}
+@media(max-width:600px){
+    .container{padding:20px 15px;}
+    .logo{width:80px;height:80px;font-size:40px;}
+    h1{font-size:32px !important;}
+}
+</style>
+</head>
+<body>
+<div class="laravel-background-pattern"></div>
+
+<div class="stars"></div>
+<div id="lightning"></div>
+<div id="precipitation"></div>
+
+<script>
+// Rain and Snow Generation
+const precipitationContainer = document.getElementById("precipitation");
+const totalRainDrops = 180;
+const totalSnowflakes = 80;
+
+// Raindrops - Slower animation
+for(let i=0; i < totalRainDrops; i++){
+  const r = document.createElement("div");
+  r.className = "raindrop";
+  r.style.left = Math.random() * 100 + "vw";
+  r.style.animationDuration = 0.8 + Math.random() * 0.7 + "s";
+  r.style.animationDelay = -Math.random() * 8 + "s";
+  r.style.opacity = 0.1 + Math.random() * 0.3;
+  precipitationContainer.appendChild(r);
+}
+
+// Snowflakes - Separate slower animation
+for(let i=0; i < totalSnowflakes; i++){
+  const s = document.createElement("div");
+  s.className = "snowflake";
+  s.style.left = Math.random() * 100 + "vw";
+  s.style.animationDuration = 4 + Math.random() * 4 + "s";
+  s.style.animationDelay = -Math.random() * 10 + "s";
+  s.style.opacity = 0.4 + Math.random() * 0.6;
+  precipitationContainer.appendChild(s);
+}
+</script>
+
+<div class="container">
+  <header>
+    <div style="display:flex;align-items:center;gap:20px">
+      <div class="logo">α</div>
+      <div class="hero-text">
+        <h1>تیم آلفا — البرز</h1>
+        <p>رزومه‌ای حرفه‌ای با طراحی پیشرفته Glassmorphism</p>
+      </div>
+    </div>
+  </header>
+
+  <hr style="border-color:rgba(255,255,255,0.1)">
+
+  <section id="about" class="glass-element" style="padding:40px; border-radius:30px;">
+    <h2>🚀 درباره ما</h2>
+    <p class="about-text">
+      ما یک تیم کوچک، اما پرانگیزه و مجرب هستیم که با تخصص در زمینه‌های مختلف توسعه وب، طراحی UI/UX و بهینه‌سازی عملکرد، به مشتریان خود کمک می‌کنیم تا پروژه‌های دیجیتالی منحصر به فرد و موفقی را خلق کنند. هدف ما ارائه راه‌حل‌های نوآورانه، با کیفیت و مقیاس‌پذیر است. ما در استفاده از جدیدترین تکنولوژی‌ها مهارت داریم و تمرکز اصلی ما بر تولید کد تمیز و تجربه کاربری فوق‌العاده است.
+      <br><br>
+      <strong>شعار ما:</strong> <span style="color:#00d79d;font-style:italic;">«از ایده تا اجرا، با بالاترین استانداردها.»</span>
+    </p>
+  </section>
+
+  <hr style="border-color:rgba(255,255,255,0.1)">
+
+  <section id="skills">
+    <h2>🛠️ مهارت‌های اصلی</h2>
+    <div class="skills-grid">
+      <div class="skill-badge">Laravel (Backend)</div>
+      <div class="skill-badge">Vue.js / Nuxt</div>
+      <div class="skill-badge">React / Next.js</div>
+      <div class="skill-badge">UI/UX Design (Figma)</div>
+      <div class="skill-badge">PostgreSQL / Redis</div>
+      <div class="skill-badge">Cloud & CI/CD</div>
+      <div class="skill-badge">Performance & SEO</div>
+      <div class="skill-badge">Mobile Apps (Flutter)</div>
+    </div>
+  </section>
+
+  <hr style="border-color:rgba(255,255,255,0.1)">
+
+  <section id="team">
+    <h2>👥 اعضای تیم</h2>
+    <div class="team-slider">
+      <div class="team-track">
+        <div class="team-card glass-element"><h4>امیرحسین بابایی</h4><p><strong>تیم لید و توسعه دهنده ارشد بک‌اند</strong><br>۳ سال تخصص در Laravel و معماری Microservices.</p></div>
+        <div class="team-card glass-element"><h4>امیرعلی عسکری</h4><p><strong>فرانت دولوپر ارشد</strong><br>متخصص در Vue.js و ساخت داشبوردهای سازمانی پیشرفته.</p></div>
+        <div class="team-card glass-element"><h4>مصطفی بیداد</h4><p><strong>متخصص سئو و بهینه‌سازی وب</strong><br>افزایش رتبه در گوگل، بهینه‌سازی سرعت و Core Web Vitals.</p></div>
+        <div class="team-card glass-element"><h4>امیرحسام فیروز</h4><p><strong>توسعه دهنده فرانت</strong><br>مهارت در React، انیمیشن‌های وب و ساخت رابط‌های کاربری پویا.</p></div>
+        <div class="team-card glass-element"><h4>سارا مرادی</h4><p><strong>طراح UI/UX</strong><br>فلوچارت‌دهی، Prototype، و طراحی زیبا و کاربرپسند با Figma.</p></div>
+        <div class="team-card glass-element"><h4>رامین قدرتی</h4><p><strong>مهندس بک‌اند ارشد</strong><br>متخصص در دیتابیس، امنیت و مقیاس‌پذیری پروژه‌های بزرگ.</p></div>
+        <div class="team-card glass-element"><h4>نرگس خاندل</h4><p><strong>موشن گرافیک و ویدئو</strong><br>تولید محتوای ویدئویی تبلیغاتی و توضیحی برای پروژه‌ها.</p></div>
+        <div class="team-card glass-element"><h4>امیرحسین بابایی</h4><p><strong>تیم لید و توسعه دهنده ارشد بک‌اند</strong><br>۳ سال تخصص در Laravel و معماری Microservices.</p></div>
+        <div class="team-card glass-element"><h4>امیرعلی عسکری</h4><p><strong>فرانت دولوپر ارشد</strong><br>متخصص در Vue.js و ساخت داشبوردهای سازمانی پیشرفته.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <hr style="border-color:rgba(255,255,255,0.1)">
+
+  <section class="projects" id="projects">
+    <h2>💡 پروژه‌های شاخص</h2>
+    <div class="grid">
+      <div class="project glass-element"><h4>سامانه مدیریت مدرسه (LMS)</h4><p>طراحی و توسعه سیستم کامل شامل ثبت‌نام، کلاس‌ها، کارنامه دیجیتال، گزارش‌های آماری و پنل‌های مجزا برای والدین و معلم.</p></div>
+      <div class="project glass-element"><h4>داشبورد سازمانی نسل جدید</h4><p>ساخت یک داشبورد مدیریتی با UI شیشه‌ای، نمودارهای زنده، انیمیشن نرم و اتصال به APIهای پیچیده.</p></div>
+      <div class="project glass-element"><h4>فروشگاه آنلاین آلفا (E-Commerce)</h4><p>پلتفرم کامل تجارت الکترونیک با سبد خرید پیشرفته، درگاه‌های پرداخت آنلاین، سیستم پیشنهاد ویژه هوشمند و طراحی بصری چشم‌گیر.</p></div>
+      <div class="project glass-element"><h4>پلتفرم آموزش آنلاین</h4><p>سیستم LMS پیشرفته با ویدیوهای تعاملی، آزمون‌های زمان‌دار، پیگیری پیشرفت و سیستم گیمیفیکیشن برای افزایش تعامل کاربران.</p></div>
+      <div class="project glass-element"><h4>سامانه رزرو آنلاین کلاس/خدمات</h4><p>سیستم نوبت‌دهی و رزرو با تقویم تعاملی، اعلان‌های هوشمند، مدیریت ظرفیت و پنل گزارشات کامل مدیریتی.</p></div>
+      <div class="project glass-element"><h4>پورتال خدمات شرکتی (CRM/Support)</h4><p>مدیریت تیکت‌های پشتیبانی، چت آنلاین، داشبورد آمار لحظه‌ای و گزارشات عملکرد کارمندان و مشتریان.</p></div>
+    </div>
+  </section>
+
+  <hr style="border-color:rgba(255,255,255,0.1)">
+
+  <section id="converter">
+    <h2>📅 تبدیل تاریخ</h2>
+    <div class="converter-card glass-element">
+      <label for="jalali-date">تاریخ را به صورت ۱۴۰۴/۰۹/۱۳ وارد کنید</label>
+      <div class="converter-inputs">
+        <input type="text" id="jalali-date" placeholder="مثال: ۱۴۰۴/۰۹/۱۳">
+        <button id="convert-btn" type="button">تبدیل به میلادی</button>
+      </div>
+      <div id="converter-result" class="converter-output"></div>
+    </div>
+  </section>
+
+  <hr style="border-color:rgba(255,255,255,0.1)">
+
+  <section id="contact">
+    <h2>📞 تماس با ما</h2>
+    <div class="contact-info glass-element">
+      <div class="contact-item">
+        <p>ایمیل:</p>
+        <a href="mailto:info@alborz-team.com">info@alborz-team.com</a>
+      </div>
+      <div class="contact-item">
+        <p>شماره تماس (پشتیبانی):</p>
+        <a href="tel:+98912XXXXXXX">09399008730</a>
+      </div>
+      <div class="contact-item">
+        <p>آدرس دفتر مرکزی:</p>
+        <a href="#">مشهد-سناباد-31</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 1404 - تیم آلفا — البرز. تمام حقوق برای ما محفوظ است.
+    <div class="laravel-logo-wrapper">
+        <span style="font-family:'Vazirmatn', sans-serif; font-weight:900;">L</span> </div>
+  </footer>
+</div>
+<script src="./jalali-converter.js"></script>
+<script>
+const convertBtn = document.getElementById("convert-btn");
+const inputField = document.getElementById("jalali-date");
+const outputField = document.getElementById("converter-result");
+
+function normalizeDigits(value){
+  return value.replace(/[۰-۹]/g, (char) => "۰۱۲۳۴۵۶۷۸۹".indexOf(char))
+              .replace(/[^\d\/\-]/g, "");
+}
+
+convertBtn.addEventListener("click", () => {
+  const rawValue = normalizeDigits(inputField.value.trim());
+  if(!rawValue){
+    outputField.textContent = "ابتدا تاریخ شمسی را وارد کنید.";
+    outputField.classList.add("error");
+    return;
+  }
+
+  try{
+    const result = JalaliDateConverter.convert(rawValue, "/");
+    outputField.textContent = `معادل میلادی: ${JalaliDateConverter.format(result)}`;
+    outputField.classList.remove("error");
+  }catch(error){
+    outputField.textContent = error.message;
+    outputField.classList.add("error");
+  }
+});
+</script>
+</body>
+</html>
